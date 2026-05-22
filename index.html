@@ -9,6 +9,10 @@
 <link rel="preload" href="assets/fonts/tzofia-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/tzofia-bold.woff2"    as="font" type="font/woff2" crossorigin>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
 <style>
   /* ───── FUP Tzofia ───── */
   @font-face{font-family:'Tzofia';font-weight:300;font-style:normal;font-display:swap;
@@ -713,6 +717,167 @@
   @media (prefers-reduced-motion:reduce){
     .splash-cta{animation:none}
   }
+
+  /* ───── cost calculator — editorial dark ───── */
+  .calc{background:#0e0e0e;color:#f1ebe1;padding:140px 0 160px;position:relative;
+    font-family:'Heebo','Tzofia',system-ui,sans-serif;direction:rtl}
+  .calc *,.calc *::before,.calc *::after{box-sizing:border-box}
+  .calc-shell{max-width:820px;margin:0 auto;padding:0 36px}
+  .calc-header{margin-bottom:120px}
+  .calc-headline{font-family:'Frank Ruhl Libre','David Libre',serif;
+    font-size:clamp(36px,7vw,68px);font-weight:500;line-height:1.05;
+    letter-spacing:-.015em;color:#f1ebe1;margin:0 0 22px}
+  .calc-subheadline{font-size:clamp(15px,2vw,18px);font-weight:300;
+    color:rgba(241,235,225,.55);margin:0;letter-spacing:.005em}
+  .calc-steps{display:grid;gap:96px;margin-bottom:120px}
+  .calc-step{display:flex;flex-direction:column;gap:28px}
+  .calc-label{font-size:12px;font-weight:300;color:rgba(241,235,225,.55);
+    letter-spacing:.2em;text-transform:uppercase;margin:0}
+  .calc-question{font-family:'Frank Ruhl Libre','David Libre',serif;
+    font-size:clamp(22px,3.4vw,30px);font-weight:400;color:#f1ebe1;
+    margin:0 0 8px;letter-spacing:-.01em;line-height:1.3}
+  /* dropdown */
+  .calc-select{background:transparent;color:#f1ebe1;border:0;
+    border-bottom:1px solid rgba(241,235,225,.12);
+    font-family:inherit;font-size:22px;font-weight:400;
+    padding:14px 4px;width:100%;appearance:none;-webkit-appearance:none;
+    cursor:pointer;outline:none;
+    background-image:linear-gradient(45deg,transparent 50%,rgba(241,235,225,.5) 50%),
+                     linear-gradient(135deg,rgba(241,235,225,.5) 50%,transparent 50%);
+    background-position:calc(0% + 8px) center,calc(0% + 14px) center;
+    background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+  .calc-select:focus{border-bottom-color:#7a1f1f}
+  .calc-select option{background:#0e0e0e;color:#f1ebe1;padding:8px}
+  .calc-price-input{background:transparent;color:#f1ebe1;border:0;
+    border-bottom:1px solid rgba(241,235,225,.12);
+    font-family:inherit;font-size:20px;font-weight:400;padding:12px 4px;
+    width:100%;outline:none;display:none;text-align:right}
+  .calc-price-input.is-visible{display:block}
+  .calc-price-input:focus{border-bottom-color:#7a1f1f}
+  .calc-footnote{font-size:12px;font-weight:300;color:rgba(241,235,225,.35);
+    margin:0;letter-spacing:.005em}
+  /* big number display + slider */
+  .calc-big-number{font-size:clamp(76px,18vw,160px);font-weight:800;
+    line-height:1;color:#f1ebe1;text-align:center;letter-spacing:-.04em;
+    font-variant-numeric:tabular-nums;user-select:none;margin:0}
+  .calc-slider{-webkit-appearance:none;appearance:none;width:100%;height:1px;
+    background:rgba(241,235,225,.18);outline:none;cursor:pointer;padding:0;margin:0}
+  .calc-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:20px;height:20px;border-radius:50%;background:#f1ebe1;cursor:grab;
+    border:0;transition:background .2s,box-shadow .2s}
+  .calc-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
+    background:#f1ebe1;cursor:grab;border:0;transition:background .2s}
+  .calc-slider:focus::-webkit-slider-thumb,.calc-slider:active::-webkit-slider-thumb{
+    background:#7a1f1f;box-shadow:0 0 0 4px rgba(122,31,31,.18)}
+  .calc-slider:focus::-moz-range-thumb,.calc-slider:active::-moz-range-thumb{
+    background:#7a1f1f;box-shadow:0 0 0 4px rgba(122,31,31,.18)}
+  .calc-number-input{background:transparent;color:#f1ebe1;border:0;
+    border-bottom:1px solid rgba(241,235,225,.12);
+    font-family:inherit;font-size:16px;font-weight:300;padding:8px 4px;
+    width:84px;text-align:center;align-self:center;outline:none;
+    font-variant-numeric:tabular-nums}
+  .calc-number-input:focus{border-bottom-color:#7a1f1f}
+  .calc-number-input::-webkit-outer-spin-button,
+  .calc-number-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  /* moment buttons */
+  .calc-moment-options{display:flex;flex-wrap:wrap;gap:10px}
+  .calc-moment{background:transparent;color:#f1ebe1;
+    border:1px solid rgba(241,235,225,.18);padding:13px 22px;
+    font-family:inherit;font-size:14px;font-weight:400;letter-spacing:.005em;
+    cursor:pointer;transition:border-color .25s,color .25s}
+  .calc-moment:hover{border-color:rgba(241,235,225,.4)}
+  .calc-moment.is-active{border-color:#7a1f1f;color:#f1ebe1}
+  .calc-moment:focus-visible{outline:none;border-color:#7a1f1f}
+  .calc-moment-response{margin:18px 0 0;font-family:'Frank Ruhl Libre','David Libre',serif;
+    font-size:16px;font-weight:400;font-style:italic;color:rgba(241,235,225,.55);
+    opacity:0;transition:opacity .5s}
+  .calc-moment-response.is-visible{opacity:1}
+  /* results */
+  .calc-results{opacity:0;visibility:hidden;
+    transition:opacity .8s ease-out,visibility 0s linear .8s}
+  .calc-results.is-visible{opacity:1;visibility:visible;transition-delay:0s}
+  .calc-results-heading{font-size:12px;font-weight:300;color:rgba(241,235,225,.55);
+    letter-spacing:.2em;text-transform:uppercase;margin:0 0 56px}
+  /* four cost cards */
+  .calc-cost-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+    margin-bottom:120px;border-block:1px solid rgba(241,235,225,.12)}
+  .calc-cost-card{padding:34px 26px;border-inline-start:1px solid rgba(241,235,225,.12);
+    text-align:right}
+  .calc-cost-card:first-child{border-inline-start:0}
+  .calc-cost-label{display:block;font-size:11px;font-weight:300;
+    color:rgba(241,235,225,.55);letter-spacing:.18em;text-transform:uppercase;
+    margin-bottom:16px}
+  .calc-cost-num{display:block;font-size:clamp(28px,4.5vw,40px);font-weight:800;
+    line-height:1;letter-spacing:-.03em;color:#f1ebe1;font-variant-numeric:tabular-nums}
+  /* big result blocks */
+  .calc-block{margin-bottom:120px}
+  .calc-block-label{display:block;font-size:11px;font-weight:300;
+    color:rgba(241,235,225,.55);letter-spacing:.2em;text-transform:uppercase;
+    margin-bottom:24px}
+  .calc-huge-num{font-size:clamp(64px,14vw,140px);font-weight:900;line-height:.95;
+    letter-spacing:-.04em;color:#f1ebe1;font-variant-numeric:tabular-nums;margin:0 0 20px}
+  .calc-block-note{font-family:'Frank Ruhl Libre','David Libre',serif;
+    font-size:18px;font-weight:400;color:rgba(241,235,225,.55);font-style:italic;margin:0}
+  /* time row */
+  .calc-time-row{display:flex;flex-wrap:wrap;gap:8px 48px;align-items:baseline;
+    margin-bottom:20px}
+  .calc-time-row > span{font-size:18px;font-weight:300;color:rgba(241,235,225,.85);
+    display:inline-flex;align-items:baseline;gap:10px}
+  .calc-time-row strong{font-size:clamp(40px,8vw,72px);font-weight:800;color:#f1ebe1;
+    font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:.95}
+  /* frequency sentence */
+  .calc-frequency-sentence{font-family:'Frank Ruhl Libre','David Libre',serif;
+    font-size:clamp(24px,5vw,42px);font-weight:400;line-height:1.35;letter-spacing:-.01em;
+    color:#f1ebe1;margin:0}
+  .calc-frequency-sentence strong{font-family:'Heebo','Tzofia',sans-serif;
+    font-weight:800;font-variant-numeric:tabular-nums;color:#f1ebe1}
+  /* future block heading */
+  .calc-future-heading{font-family:'Frank Ruhl Libre','David Libre',serif;
+    font-size:clamp(22px,3.4vw,30px);font-weight:400;letter-spacing:-.01em;
+    color:#f1ebe1;margin:0 0 36px}
+  .calc-future .calc-cost-row{grid-template-columns:repeat(3,1fr);margin-bottom:120px}
+  /* closing */
+  .calc-closing{border-top:1px solid rgba(241,235,225,.12);padding-top:64px}
+  .calc-closing-text{font-family:'Frank Ruhl Libre','David Libre',serif;
+    font-size:clamp(19px,3vw,24px);font-weight:400;line-height:1.55;
+    color:rgba(241,235,225,.85);margin:0 0 40px;max-width:600px}
+  .calc-cta-primary{display:inline-block;padding:18px 40px;background:#7a1f1f;
+    color:#f1ebe1;font-family:inherit;font-size:15px;font-weight:500;letter-spacing:.02em;
+    text-decoration:none;transition:background .25s,transform .15s;border:0;cursor:pointer}
+  .calc-cta-primary:hover{background:#931d1d}
+  .calc-cta-primary:active{transform:translateY(1px)}
+  .calc-cta-secondary{display:inline-block;margin-top:24px;font-size:13px;
+    font-weight:300;color:rgba(241,235,225,.55);text-decoration:none;
+    border-bottom:1px solid rgba(241,235,225,.18);padding-bottom:3px;letter-spacing:.005em}
+  .calc-cta-secondary:hover{color:#f1ebe1;border-bottom-color:rgba(241,235,225,.5)}
+  /* sticky mobile CTA */
+  .calc-sticky{display:none;position:fixed;left:0;right:0;bottom:0;z-index:90;
+    background:#0e0e0e;border-top:1px solid rgba(241,235,225,.12);
+    padding:12px 20px env(safe-area-inset-bottom,12px);text-align:center}
+  .calc-sticky a{display:inline-block;color:#f1ebe1;font-family:'Heebo','Tzofia',sans-serif;
+    font-size:14px;font-weight:500;text-decoration:none;letter-spacing:.005em;padding:6px 0}
+  .calc-sticky.is-visible{display:block}
+  /* mobile */
+  @media (max-width:720px){
+    .calc{padding:88px 0 88px}
+    .calc-shell{padding:0 24px}
+    .calc-header{margin-bottom:72px}
+    .calc-steps{gap:64px;margin-bottom:80px}
+    .calc-cost-row{grid-template-columns:1fr 1fr;margin-bottom:80px}
+    .calc-cost-card{padding:26px 20px}
+    .calc-cost-card:nth-child(2){border-inline-start:0}
+    .calc-cost-card:nth-child(n+3){border-block-start:1px solid rgba(241,235,225,.12)}
+    .calc-block{margin-bottom:80px}
+    .calc-future .calc-cost-row{grid-template-columns:1fr}
+    .calc-future .calc-cost-card{border-inline-start:0;
+      border-block-end:1px solid rgba(241,235,225,.12)}
+    .calc-future .calc-cost-card:last-child{border-block-end:0}
+    .calc-time-row{gap:6px 32px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .calc-results{transition:none}
+    .calc-moment-response{transition:none}
+  }
 </style>
 </head>
 <body class="splash-active">
@@ -754,6 +919,7 @@
       <a href="#how">איך השיטה עובדת</a>
       <a href="#audiences">למי זה מתאים</a>
       <a href="#testimonials">המלצות</a>
+      <a href="#calc">המספרים שלך</a>
       <a href="#contact">הרשמה</a>
     </nav>
     <div class="header-actions">
@@ -1037,6 +1203,167 @@
   </div>
 </section>
 
+<!-- ───────────── COST CALCULATOR ───────────── -->
+<section class="calc" id="calc" aria-labelledby="calcHeadline">
+  <div class="calc-shell">
+    <header class="calc-header">
+      <h2 class="calc-headline" id="calcHeadline">כמה באמת עולה לך לעשן?</h2>
+      <p class="calc-subheadline">ארבע שאלות. מספר אחד בסוף.</p>
+    </header>
+
+    <div class="calc-steps">
+      <!-- Step 1 — Brand -->
+      <div class="calc-step">
+        <p class="calc-label">שלב 1</p>
+        <label class="calc-question" for="calcBrand">איזה סיגריות אתה מעשן?</label>
+        <select class="calc-select" id="calcBrand" aria-describedby="calcBrandFootnote">
+          <option value="42">Marlboro · ₪42</option>
+          <option value="47">Parliament · ₪47</option>
+          <option value="40">Camel · ₪40</option>
+          <option value="40">Winston · ₪40</option>
+          <option value="37">Pall Mall · ₪37</option>
+          <option value="39">L&amp;M · ₪39</option>
+          <option value="45">Kent · ₪45</option>
+          <option value="37">Time · ₪37</option>
+          <option value="37">Noblesse · ₪37</option>
+          <option value="45">Vogue · ₪45</option>
+          <option value="90">טבק לגלגול · ₪90</option>
+          <option value="other">אחר</option>
+        </select>
+        <input class="calc-price-input" id="calcCustomPrice" type="number" min="10" max="300" inputmode="numeric" placeholder="מה אתה משלם לחפיסה?" aria-label="מחיר חפיסה בשקלים">
+        <p class="calc-footnote" id="calcBrandFootnote">מחירים לפי מינימום לצרכן. אפשר לעדכן.</p>
+      </div>
+
+      <!-- Step 2 — Daily intake -->
+      <div class="calc-step">
+        <p class="calc-label">שלב 2</p>
+        <label class="calc-question" for="calcPerDay">כמה ביום?</label>
+        <div class="calc-big-number" id="calcPerDayDisplay" aria-live="polite">10</div>
+        <input class="calc-slider" type="range" id="calcPerDay" min="1" max="60" value="10" aria-label="סיגריות ביום" aria-valuemin="1" aria-valuemax="60" aria-valuenow="10">
+        <input class="calc-number-input" type="number" min="1" max="60" id="calcPerDayInput" value="10" inputmode="numeric" aria-label="סיגריות ביום">
+      </div>
+
+      <!-- Step 3 — Years -->
+      <div class="calc-step">
+        <p class="calc-label">שלב 3</p>
+        <label class="calc-question" for="calcYears">כמה שנים?</label>
+        <div class="calc-big-number" id="calcYearsDisplay" aria-live="polite">10</div>
+        <input class="calc-slider" type="range" id="calcYears" min="1" max="60" value="10" aria-label="שנים של עישון" aria-valuemin="1" aria-valuemax="60" aria-valuenow="10">
+        <input class="calc-number-input" type="number" min="1" max="60" id="calcYearsInput" value="10" inputmode="numeric" aria-label="שנים של עישון">
+      </div>
+
+      <!-- Step 4 — Hardest moment -->
+      <div class="calc-step">
+        <p class="calc-label">שלב 4</p>
+        <p class="calc-question">מתי הכי קשה לוותר?</p>
+        <div class="calc-moment-options" role="radiogroup" aria-label="הרגע הקשה ביותר">
+          <button type="button" class="calc-moment" data-value="morning" role="radio" aria-checked="false">בבוקר</button>
+          <button type="button" class="calc-moment" data-value="coffee" role="radio" aria-checked="false">עם קפה</button>
+          <button type="button" class="calc-moment" data-value="stress" role="radio" aria-checked="false">כשאני בלחץ</button>
+          <button type="button" class="calc-moment" data-value="food" role="radio" aria-checked="false">אחרי אוכל</button>
+          <button type="button" class="calc-moment" data-value="driving" role="radio" aria-checked="false">בנהיגה</button>
+          <button type="button" class="calc-moment" data-value="friends" role="radio" aria-checked="false">עם חברים</button>
+          <button type="button" class="calc-moment" data-value="always" role="radio" aria-checked="false">די כל הזמן</button>
+        </div>
+        <p class="calc-moment-response" id="calcMomentResponse">זה רגע שהמוח מחפש, לא הגוף.</p>
+      </div>
+    </div>
+
+    <div class="calc-results" id="calcResults" aria-live="polite">
+      <h3 class="calc-results-heading">המספרים שלך</h3>
+
+      <!-- Cost cards -->
+      <div class="calc-cost-row">
+        <div class="calc-cost-card">
+          <span class="calc-cost-label">ליום</span>
+          <span class="calc-cost-num" id="costDaily">₪0</span>
+        </div>
+        <div class="calc-cost-card">
+          <span class="calc-cost-label">לשבוע</span>
+          <span class="calc-cost-num" id="costWeekly">₪0</span>
+        </div>
+        <div class="calc-cost-card">
+          <span class="calc-cost-label">לחודש</span>
+          <span class="calc-cost-num" id="costMonthly">₪0</span>
+        </div>
+        <div class="calc-cost-card">
+          <span class="calc-cost-label">לשנה</span>
+          <span class="calc-cost-num" id="costYearly">₪0</span>
+        </div>
+      </div>
+
+      <!-- Historical -->
+      <div class="calc-block">
+        <span class="calc-block-label">מאז שהתחלת</span>
+        <div class="calc-huge-num" id="costHistorical">₪0</div>
+        <p class="calc-block-note">זה רק החלק שאפשר לספור בכסף.</p>
+      </div>
+
+      <!-- Time -->
+      <div class="calc-block">
+        <span class="calc-block-label">זמן</span>
+        <div class="calc-time-row">
+          <span><strong id="timeHours">0</strong> שעות</span>
+          <span><strong id="timeDays">0</strong> ימים</span>
+          <span><strong id="timeYears">0</strong> שנים</span>
+        </div>
+        <p class="calc-block-note">זמן שלא חוזר.</p>
+      </div>
+
+      <!-- Frequency -->
+      <div class="calc-block">
+        <span class="calc-block-label">בממוצע</span>
+        <p class="calc-frequency-sentence">כל <strong id="gapMinutes">0</strong> דקות אתה מדליק עוד אחת.</p>
+      </div>
+
+      <!-- Puffs -->
+      <div class="calc-block">
+        <span class="calc-block-label">שאיפות</span>
+        <div class="calc-huge-num" id="puffsTotal">0</div>
+        <p class="calc-block-note">כל אחת בערך שש שניות.</p>
+      </div>
+
+      <!-- Investment -->
+      <div class="calc-block">
+        <span class="calc-block-label">לו זה היה מושקע</span>
+        <div class="calc-huge-num" id="investmentTotal">₪0</div>
+        <p class="calc-block-note">8% שנתי, ריבית דריבית. סתם בשביל פרספקטיבה.</p>
+      </div>
+
+      <!-- Future -->
+      <div class="calc-future">
+        <h3 class="calc-future-heading">ואם תמשיך באותו קצב?</h3>
+        <div class="calc-cost-row">
+          <div class="calc-cost-card">
+            <span class="calc-cost-label">בעוד שנה</span>
+            <span class="calc-cost-num" id="future1y">₪0</span>
+          </div>
+          <div class="calc-cost-card">
+            <span class="calc-cost-label">בעוד 5 שנים</span>
+            <span class="calc-cost-num" id="future5y">₪0</span>
+          </div>
+          <div class="calc-cost-card">
+            <span class="calc-cost-label">בעוד 10 שנים</span>
+            <span class="calc-cost-num" id="future10y">₪0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Closing -->
+      <div class="calc-closing">
+        <p class="calc-closing-text">אין פה מסר מוסרי. רק הנתונים שלך.<br>אם בא לך להפסיק — יש דרך לעשות את זה בלי לסבול לבד.</p>
+        <a href="#program" class="calc-cta-primary">לקרוא איך עובדת הסדנה</a><br>
+        <a href="#contact" class="calc-cta-secondary">או — שלח לי את התוצאות במייל</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sticky mobile CTA, only inside calc section -->
+<div class="calc-sticky" id="calcSticky" aria-hidden="true">
+  <a href="#program">לקרוא איך עובדת הסדנה</a>
+</div>
+
 <!-- ───────────── FAQ ───────────── -->
 <section class="section faq" id="faq">
   <div class="container faq-grid">
@@ -1318,6 +1645,168 @@
     }, {threshold:.1});
     floatIo.observe(contactSection);
   }
+
+  // ─── cost calculator ───
+  (function(){
+    const brand = document.getElementById('calcBrand');
+    const customPrice = document.getElementById('calcCustomPrice');
+    const perDaySlider = document.getElementById('calcPerDay');
+    const perDayDisplay = document.getElementById('calcPerDayDisplay');
+    const perDayInput = document.getElementById('calcPerDayInput');
+    const yearsSlider = document.getElementById('calcYears');
+    const yearsDisplay = document.getElementById('calcYearsDisplay');
+    const yearsInput = document.getElementById('calcYearsInput');
+    const momentButtons = document.querySelectorAll('.calc-moment');
+    const momentResponse = document.getElementById('calcMomentResponse');
+    const results = document.getElementById('calcResults');
+    const sticky = document.getElementById('calcSticky');
+    const calcSection = document.getElementById('calc');
+    if (!brand || !calcSection) return;
+
+    const state = { price:42, perDay:10, years:10, moment:null };
+    let revealed = false;
+    const animFrames = new WeakMap();
+
+    const fmtCurrency = (n) => '₪' + Math.round(n).toLocaleString('he-IL');
+    const fmtNumber = (n) => Math.round(n).toLocaleString('he-IL');
+
+    function animateNumber(el, target, formatter){
+      if (!el) return;
+      formatter = formatter || fmtNumber;
+      if (animFrames.has(el)) cancelAnimationFrame(animFrames.get(el));
+      const start = parseFloat(el.dataset.current) || 0;
+      const t0 = performance.now();
+      const duration = 1300;
+      function step(now){
+        const t = Math.min((now - t0) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const v = start + (target - start) * eased;
+        el.textContent = formatter(v);
+        if (t < 1) animFrames.set(el, requestAnimationFrame(step));
+        else { el.textContent = formatter(target); el.dataset.current = target; animFrames.delete(el); }
+      }
+      animFrames.set(el, requestAnimationFrame(step));
+    }
+
+    function compute(){
+      const { price, perDay, years } = state;
+      const daily = (price / 20) * perDay;
+      const yearly = daily * 365;
+      const minutes = perDay * years * 365 * 6;
+      let invested = 0;
+      for (let i = 0; i < years; i++) invested = (invested + yearly) * 1.08;
+      return {
+        daily, weekly: daily * 7, monthly: daily * 30, yearly,
+        historical: yearly * years,
+        hours: minutes / 60,
+        days: minutes / 1440,
+        years_lost: minutes / 525600,
+        gap: perDay > 0 ? (16 * 60) / perDay : 0,
+        puffs: perDay * 10 * years * 365,
+        invested,
+        future1y: yearly,
+        future5y: yearly * 5,
+        future10y: yearly * 10
+      };
+    }
+
+    function recalc(){
+      if (!revealed) return;
+      const r = compute();
+      animateNumber(document.getElementById('costDaily'), r.daily, fmtCurrency);
+      animateNumber(document.getElementById('costWeekly'), r.weekly, fmtCurrency);
+      animateNumber(document.getElementById('costMonthly'), r.monthly, fmtCurrency);
+      animateNumber(document.getElementById('costYearly'), r.yearly, fmtCurrency);
+      animateNumber(document.getElementById('costHistorical'), r.historical, fmtCurrency);
+      animateNumber(document.getElementById('timeHours'), r.hours, fmtNumber);
+      animateNumber(document.getElementById('timeDays'), r.days, fmtNumber);
+      animateNumber(document.getElementById('timeYears'), r.years_lost, fmtNumber);
+      animateNumber(document.getElementById('gapMinutes'), r.gap, fmtNumber);
+      animateNumber(document.getElementById('puffsTotal'), r.puffs, fmtNumber);
+      animateNumber(document.getElementById('investmentTotal'), r.invested, fmtCurrency);
+      animateNumber(document.getElementById('future1y'), r.future1y, fmtCurrency);
+      animateNumber(document.getElementById('future5y'), r.future5y, fmtCurrency);
+      animateNumber(document.getElementById('future10y'), r.future10y, fmtCurrency);
+    }
+
+    function reveal(){
+      if (revealed) return;
+      revealed = true;
+      results.classList.add('is-visible');
+      recalc();
+    }
+
+    brand.addEventListener('change', () => {
+      if (brand.value === 'other') {
+        customPrice.classList.add('is-visible');
+        customPrice.focus();
+        state.price = parseFloat(customPrice.value) || 42;
+      } else {
+        customPrice.classList.remove('is-visible');
+        state.price = parseFloat(brand.value) || 42;
+      }
+      recalc();
+    });
+    customPrice.addEventListener('input', () => {
+      const v = parseFloat(customPrice.value);
+      if (!isNaN(v) && v > 0) { state.price = v; recalc(); }
+    });
+
+    function syncPerDay(v){
+      v = Math.max(1, Math.min(60, parseInt(v, 10) || 1));
+      state.perDay = v;
+      perDaySlider.value = v;
+      perDayInput.value = v;
+      perDayDisplay.textContent = v;
+      perDaySlider.setAttribute('aria-valuenow', v);
+      recalc();
+    }
+    perDaySlider.addEventListener('input', () => syncPerDay(perDaySlider.value));
+    perDayInput.addEventListener('input', () => syncPerDay(perDayInput.value));
+
+    function syncYears(v){
+      v = Math.max(1, Math.min(60, parseInt(v, 10) || 1));
+      state.years = v;
+      yearsSlider.value = v;
+      yearsInput.value = v;
+      yearsDisplay.textContent = v;
+      yearsSlider.setAttribute('aria-valuenow', v);
+      recalc();
+    }
+    yearsSlider.addEventListener('input', () => syncYears(yearsSlider.value));
+    yearsInput.addEventListener('input', () => syncYears(yearsInput.value));
+
+    momentButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        momentButtons.forEach(b => { b.classList.remove('is-active'); b.setAttribute('aria-checked', 'false'); });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-checked', 'true');
+        state.moment = btn.dataset.value;
+        momentResponse.classList.add('is-visible');
+        reveal();
+      });
+    });
+
+    // sticky CTA + hide floats while calc is in view (mobile only)
+    const floatBtn = document.querySelector('.float-whatsapp');
+    const soundBtn = document.getElementById('floatSound');
+    const mobileMq = window.matchMedia('(max-width: 980px)');
+    const stickyIo = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        const show = e.isIntersecting && mobileMq.matches;
+        sticky.classList.toggle('is-visible', show);
+        sticky.setAttribute('aria-hidden', String(!show));
+        if (e.isIntersecting) {
+          if (floatBtn) floatBtn.classList.add('is-hidden');
+          if (soundBtn) soundBtn.classList.add('is-hidden');
+        } else {
+          if (floatBtn) floatBtn.classList.remove('is-hidden');
+          if (soundBtn) soundBtn.classList.remove('is-hidden');
+        }
+      });
+    }, {threshold:.15});
+    stickyIo.observe(calcSection);
+  })();
 
   // lead form → WhatsApp
   const WA_BASE = 'https://wa.me/972524200635';
