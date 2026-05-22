@@ -607,6 +607,12 @@
       #3E8C82 77%,#3E8C82 100%);
     -webkit-background-clip:text;background-clip:text;
     filter:drop-shadow(0 8px 20px rgba(62,140,130,.28))}
+  .splash-title-pre{display:block;font-size:1.35em;line-height:1;font-weight:800;
+    color:#DCEEEA;letter-spacing:-.03em;margin-bottom:.04em;
+    background:none;-webkit-background-clip:initial;background-clip:initial;
+    -webkit-text-fill-color:initial;
+    filter:drop-shadow(0 4px 18px rgba(62,140,130,.5))
+           drop-shadow(0 0 36px rgba(62,140,130,.32))}
   .splash-cta-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
   .splash-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;
     gap:14px;padding:20px 42px;border:0;border-radius:999px;cursor:pointer;
@@ -652,7 +658,10 @@
 <!-- ───────────── INTRO SPLASH ───────────── -->
 <div class="splash" id="splash" role="dialog" aria-modal="true" aria-labelledby="splashTitle">
   <div class="splash-inner">
-    <h1 class="splash-title" id="splashTitle">פשוט להפסיק לעשן</h1>
+    <h1 class="splash-title" id="splashTitle">
+      <span class="splash-title-pre">פשוט</span>
+      להפסיק לעשן
+    </h1>
     <div class="splash-cta-wrap">
       <button class="splash-cta" id="splashCta" type="button">
         <svg class="splash-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6l-6 6 6 6"/></svg>
