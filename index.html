@@ -275,19 +275,47 @@
   .closing-copy p{color:rgba(244,239,227,.85);font-size:17px;line-height:1.75;margin:0 0 1em}
   .closing-copy p:last-child{margin-bottom:0}
 
-  .lead-form{background:var(--bg-card);border:1px solid var(--line);padding:44px 40px}
-  .lead-form .field{margin-bottom:20px}
-  .lead-form label{display:block;font-size:12px;font-weight:600;color:var(--ink-mute);
-    margin-bottom:8px;letter-spacing:.08em;text-transform:uppercase}
+  /* lead form — editorial underline inputs with teal accents */
+  .lead-form{background:var(--bg-card);border:1px solid var(--line);padding:44px 40px;
+    position:relative;box-shadow:0 30px 60px -32px rgba(10,61,58,.22)}
+  .lead-form::before{content:"";position:absolute;top:-1px;left:-1px;right:-1px;
+    height:3px;background:var(--teal)}
+  .lead-form .field{position:relative;margin-bottom:24px}
+  .lead-form label{display:block;font-size:11px;font-weight:700;color:var(--ink-mute);
+    margin-bottom:10px;letter-spacing:.14em;text-transform:uppercase;
+    transition:color .25s var(--ease)}
   .lead-form input[type=text],.lead-form input[type=tel],.lead-form input[type=email]{
-    width:100%;padding:14px 16px;border:1px solid var(--line);background:var(--bg);
-    font-family:inherit;font-size:16px;color:var(--ink);transition:border-color .2s var(--ease)}
-  .lead-form input:focus{outline:none;border-color:var(--ink)}
-  .lead-form .check{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;
-    font-size:14px;color:var(--ink-soft);line-height:1.6}
-  .lead-form .check input{width:18px;height:18px;margin-top:2px;flex-shrink:0;accent-color:var(--bg-deep)}
-  .lead-form .check label{margin:0;font-weight:400;text-transform:none;letter-spacing:0;color:inherit}
-  .lead-form .form-note{margin-top:16px;font-size:13px;color:var(--ink-mute);text-align:center}
+    width:100%;padding:10px 2px 12px;border:0;
+    border-bottom:1px solid var(--line-strong);background:transparent;
+    font-family:inherit;font-size:17px;color:var(--ink);font-weight:500;
+    letter-spacing:.005em;transition:border-color .25s var(--ease)}
+  .lead-form input::placeholder{color:var(--ink-mute);opacity:.45;font-weight:400}
+  .lead-form input:focus{outline:none;border-bottom-color:var(--teal-deep);
+    box-shadow:inset 0 -1px 0 var(--teal-deep)}
+  .lead-form .field:focus-within label{color:var(--teal-deep)}
+  /* consent group */
+  .lead-form-consent{margin:34px 0 22px;padding-top:22px;
+    border-top:1px solid var(--line);display:grid;gap:14px}
+  /* custom checkboxes */
+  .lead-form .check{display:flex;align-items:flex-start;gap:14px;
+    font-size:14px;color:var(--ink-soft);line-height:1.55;
+    cursor:pointer;margin:0;font-weight:400;text-transform:none;letter-spacing:0}
+  .lead-form .check input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+  .lead-form .check-mark{width:22px;height:22px;border:1.5px solid var(--line-strong);
+    background:#fff;flex-shrink:0;margin-top:1px;position:relative;display:block;
+    transition:border-color .2s var(--ease),background .2s var(--ease)}
+  .lead-form .check-mark::after{content:"";position:absolute;top:3px;left:7px;
+    width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;
+    transform:rotate(45deg);opacity:0;transition:opacity .15s var(--ease)}
+  .lead-form .check input:checked ~ .check-mark{background:var(--teal-deep);
+    border-color:var(--teal-deep)}
+  .lead-form .check input:checked ~ .check-mark::after{opacity:1}
+  .lead-form .check input:focus-visible ~ .check-mark{
+    box-shadow:0 0 0 3px rgba(62,140,130,.22)}
+  .lead-form .check:hover .check-mark{border-color:var(--teal-deep)}
+  .lead-submit{margin-top:6px;gap:10px}
+  .lead-form .form-note{margin-top:18px;font-size:13px;color:var(--ink-mute);
+    text-align:center;letter-spacing:.01em}
 
   @media (max-width:980px){
     .perks-grid,.how-method-grid{grid-template-columns:1fr}
@@ -1056,11 +1084,19 @@
       <ul class="contact-list">
         <li>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2 1c1 3 3 5 6 6l1-2 5 2v3a2 2 0 0 1-2 2C9 21 3 15 3 6a2 2 0 0 1 2-2z"/></svg></span>
-          <div><strong>וואטסאפ</strong><a href="tel:+972500000000" dir="ltr">050-000-0000</a></div>
+          <div><strong>וואטסאפ</strong><a href="tel:+972524200635" dir="ltr">052-420-0635</a></div>
         </li>
         <li>
           <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9 6 9-6M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"/></svg></span>
-          <div><strong>אימייל</strong><a href="mailto:hello@liatdagan.co.il">hello@liatdagan.co.il</a></div>
+          <div><strong>אימייל</strong><a href="mailto:liatidagan@gmail.com">liatidagan@gmail.com</a></div>
+        </li>
+        <li>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg></span>
+          <div><strong>קבוצת פייסבוק</strong><a href="https://www.facebook.com/groups/575534356992051/?ref=share_group_link" target="_blank" rel="noopener">הצטרפו לקבוצה</a></div>
+        </li>
+        <li>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor" stroke="none"/></svg></span>
+          <div><strong>אינסטגרם</strong><a href="https://instagram.com/liat.dagan.mentalcoach" target="_blank" rel="noopener" dir="ltr">@liat.dagan.mentalcoach</a></div>
         </li>
       </ul>
     </div>
@@ -1069,25 +1105,32 @@
       <form class="lead-form" id="leadForm" novalidate>
         <div class="field">
           <label for="leadName">שם מלא</label>
-          <input type="text" id="leadName" name="name" required autocomplete="name" />
+          <input type="text" id="leadName" name="name" required autocomplete="name" placeholder="ישראל ישראלי" />
         </div>
         <div class="field">
           <label for="leadPhone">מספר טלפון</label>
-          <input type="tel" id="leadPhone" name="phone" required dir="ltr" autocomplete="tel" />
+          <input type="tel" id="leadPhone" name="phone" required dir="ltr" autocomplete="tel" placeholder="054-1234567" />
         </div>
         <div class="field">
           <label for="leadEmail">כתובת מייל</label>
-          <input type="email" id="leadEmail" name="email" required dir="ltr" autocomplete="email" />
+          <input type="email" id="leadEmail" name="email" required dir="ltr" autocomplete="email" placeholder="name@example.com" />
         </div>
-        <div class="check">
-          <input type="checkbox" id="leadMarketing" name="marketing" required />
-          <label for="leadMarketing">אני מאשר/ת קבלת חומרי פרסום מליאת דגן</label>
+        <div class="lead-form-consent">
+          <label class="check">
+            <input type="checkbox" id="leadMarketing" name="marketing" required />
+            <span class="check-mark" aria-hidden="true"></span>
+            <span>אני מאשר/ת קבלת חומרי פרסום מליאת דגן</span>
+          </label>
+          <label class="check">
+            <input type="checkbox" id="leadTerms" name="terms" required />
+            <span class="check-mark" aria-hidden="true"></span>
+            <span>אני מאשר/ת את התקנון ומדיניות הפרטיות</span>
+          </label>
         </div>
-        <div class="check">
-          <input type="checkbox" id="leadTerms" name="terms" required />
-          <label for="leadTerms">אני מאשר/ת את התקנון ומדיניות הפרטיות</label>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg btn-block">אני רוצה להוציא את הסיגריה מהראש</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block lead-submit">
+          <span>אני רוצה להוציא את הסיגריה מהראש</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6l-6 6 6 6"/></svg>
+        </button>
         <p class="form-note">הטופס נשלח בוואטסאפ — נחזור אליך עם פרטי התהליך.</p>
       </form>
     </aside>
@@ -1120,9 +1163,11 @@
     <div class="footer-col">
       <h4>יצירת קשר</h4>
       <ul>
-        <li><a href="tel:+972500000000" dir="ltr">050-000-0000</a></li>
-        <li><a href="mailto:hello@liatdagan.co.il">hello@liatdagan.co.il</a></li>
-        <li><a href="https://wa.me/972500000000" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="tel:+972524200635" dir="ltr">052-420-0635</a></li>
+        <li><a href="mailto:liatidagan@gmail.com">liatidagan@gmail.com</a></li>
+        <li><a href="https://wa.me/972524200635" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="https://www.facebook.com/groups/575534356992051/?ref=share_group_link" target="_blank" rel="noopener">קבוצת פייסבוק</a></li>
+        <li><a href="https://instagram.com/liat.dagan.mentalcoach" target="_blank" rel="noopener" dir="ltr">@liat.dagan.mentalcoach</a></li>
       </ul>
     </div>
   </div>
@@ -1135,7 +1180,7 @@
 </footer>
 
 <!-- Floating WhatsApp -->
-<a href="https://wa.me/972500000000" class="float-whatsapp" target="_blank" rel="noopener" aria-label="פתיחת שיחה ב-WhatsApp">
+<a href="https://wa.me/972524200635" class="float-whatsapp" target="_blank" rel="noopener" aria-label="פתיחת שיחה ב-WhatsApp">
   <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.3 0-.5 0-.1-.6-1.5-.8-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.7.1.2 1.8 2.7 4.3 3.8 1.5.6 2.1.7 2.9.6.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.2-.3-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4c1.5.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
 </a>
 
@@ -1218,7 +1263,7 @@
   }
 
   // lead form → WhatsApp
-  const WA_BASE = 'https://wa.me/972500000000';
+  const WA_BASE = 'https://wa.me/972524200635';
   document.getElementById('leadForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
