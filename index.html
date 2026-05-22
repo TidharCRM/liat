@@ -781,6 +781,7 @@
   .calc-results-heading::before{content:"";width:38px;height:1px;background:var(--teal-deep)}
   /* cost cards row */
   .calc-cost-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:80px}
+  .calc-cost-row--two{grid-template-columns:repeat(2,1fr);max-width:560px;margin-inline:auto}
   .calc-cost-card{padding:28px 24px;background:var(--bg-card);border:1px solid var(--line);
     transition:border-color .25s var(--ease)}
   .calc-cost-card:hover{border-color:var(--ink)}
@@ -1177,8 +1178,8 @@
   <div class="calc-shell">
     <div class="section-head">
       <span class="eyebrow">המספרים שלך</span>
-      <h2 class="section-title" id="calcHeadline">כמה באמת עולה לך לעשן?</h2>
-      <p class="section-sub">שלוש שאלות. מספר אחד בסוף.</p>
+      <h2 class="section-title" id="calcHeadline">המחיר האמיתי של הסיגריות</h2>
+      <p class="section-sub">כמה כסף הסדנה יכולה לחסוך לך?</p>
     </div>
 
     <div class="calc-steps">
@@ -1225,18 +1226,10 @@
     </div>
 
     <div class="calc-results" id="calcResults" aria-live="polite">
-      <h3 class="calc-results-heading">המספרים שלך</h3>
+      <h3 class="calc-results-heading">כמה אתה משלם על הסיגריות</h3>
 
-      <!-- Cost cards -->
-      <div class="calc-cost-row">
-        <div class="calc-cost-card">
-          <span class="calc-cost-label">ליום</span>
-          <span class="calc-cost-num" id="costDaily">₪0</span>
-        </div>
-        <div class="calc-cost-card">
-          <span class="calc-cost-label">לשבוע</span>
-          <span class="calc-cost-num" id="costWeekly">₪0</span>
-        </div>
+      <!-- Cost cards: monthly + yearly -->
+      <div class="calc-cost-row calc-cost-row--two">
         <div class="calc-cost-card">
           <span class="calc-cost-label">לחודש</span>
           <span class="calc-cost-num" id="costMonthly">₪0</span>
@@ -1256,7 +1249,7 @@
 
       <!-- Time -->
       <div class="calc-block">
-        <span class="calc-block-label">שעות בעשן</span>
+        <span class="calc-block-label">שעות עם הסיגריה ביד</span>
         <div class="calc-huge-num" id="timeHours">0</div>
         <p class="calc-block-note">זמן שלא חוזר.</p>
       </div>
@@ -1265,13 +1258,6 @@
       <div class="calc-block">
         <span class="calc-block-label">בממוצע</span>
         <p class="calc-frequency-sentence">כל <strong id="gapMinutes">0</strong> דקות אתה מדליק עוד אחת.</p>
-      </div>
-
-      <!-- Puffs -->
-      <div class="calc-block">
-        <span class="calc-block-label">שאיפות</span>
-        <div class="calc-huge-num" id="puffsTotal">0</div>
-        <p class="calc-block-note">כל אחת בערך שש שניות.</p>
       </div>
 
       <!-- Investment -->
@@ -1302,7 +1288,7 @@
 
       <!-- Closing -->
       <div class="calc-closing">
-        <p class="calc-closing-text">אין פה מסר מוסרי. רק הנתונים שלך.<br>אם בא לך להפסיק — יש דרך לעשות את זה בלי לסבול לבד.</p>
+        <p class="calc-closing-text">אם בא לך להפסיק — יש דרך לעשות את זה בלי לסבול לבד.</p>
         <a href="#program" class="calc-cta-primary">לקרוא איך עובדת הסדנה</a><br>
         <a href="#contact" class="calc-cta-secondary">או — שלח לי את התוצאות במייל</a>
       </div>
@@ -1645,11 +1631,10 @@
       let invested = 0;
       for (let i = 0; i < years; i++) invested = (invested + yearly) * 1.08;
       return {
-        daily, weekly: daily * 7, monthly: daily * 30, yearly,
+        monthly: daily * 30, yearly,
         historical: yearly * years,
         hours: minutes / 60,
         gap: perDay > 0 ? (16 * 60) / perDay : 0,
-        puffs: perDay * 10 * years * 365,
         invested,
         future1y: yearly,
         future5y: yearly * 5,
@@ -1660,14 +1645,11 @@
     function recalc(){
       if (!hasAnimated) return;
       const r = compute();
-      animateNumber(document.getElementById('costDaily'), r.daily, fmtCurrency);
-      animateNumber(document.getElementById('costWeekly'), r.weekly, fmtCurrency);
       animateNumber(document.getElementById('costMonthly'), r.monthly, fmtCurrency);
       animateNumber(document.getElementById('costYearly'), r.yearly, fmtCurrency);
       animateNumber(document.getElementById('costHistorical'), r.historical, fmtCurrency);
       animateNumber(document.getElementById('timeHours'), r.hours, fmtNumber);
       animateNumber(document.getElementById('gapMinutes'), r.gap, fmtNumber);
-      animateNumber(document.getElementById('puffsTotal'), r.puffs, fmtNumber);
       animateNumber(document.getElementById('investmentTotal'), r.invested, fmtCurrency);
       animateNumber(document.getElementById('future1y'), r.future1y, fmtCurrency);
       animateNumber(document.getElementById('future5y'), r.future5y, fmtCurrency);
