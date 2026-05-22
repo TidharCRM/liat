@@ -1140,6 +1140,7 @@
     const dismiss = () => {
       if (audio) {
         audio.volume = 0.4;
+        document.body.appendChild(audio);
         const p = audio.play();
         if (p && typeof p.catch === 'function') p.catch(() => {});
       }
