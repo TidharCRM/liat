@@ -787,10 +787,7 @@
   .calc-moment-response{margin:14px 0 0;font-size:15.5px;font-weight:500;
     color:var(--teal-deep);opacity:0;transition:opacity .5s}
   .calc-moment-response.is-visible{opacity:1}
-  /* results */
-  .calc-results{opacity:0;visibility:hidden;
-    transition:opacity .8s ease-out,visibility 0s linear .8s}
-  .calc-results.is-visible{opacity:1;visibility:visible;transition-delay:0s}
+  /* results — always visible, count up on first scroll into view */
   .calc-results-heading{display:inline-flex;align-items:center;gap:14px;
     font-size:12px;font-weight:600;color:var(--teal-deep);
     letter-spacing:.18em;text-transform:uppercase;margin:0 0 40px}
@@ -1658,7 +1655,7 @@
     if (!brand || !calcSection) return;
 
     const state = { price:42, perDay:10, years:10, moment:null };
-    let revealed = false;
+    let hasAnimated = false;
     const animFrames = new WeakMap();
 
     const fmtCurrency = (n) => '₪' + Math.round(n).toLocaleString('he-IL');
@@ -1705,7 +1702,7 @@
     }
 
     function recalc(){
-      if (!revealed) return;
+      if (!hasAnimated) return;
       const r = compute();
       animateNumber(document.getElementById('costDaily'), r.daily, fmtCurrency);
       animateNumber(document.getElementById('costWeekly'), r.weekly, fmtCurrency);
@@ -1723,12 +1720,17 @@
       animateNumber(document.getElementById('future10y'), r.future10y, fmtCurrency);
     }
 
-    function reveal(){
-      if (revealed) return;
-      revealed = true;
-      results.classList.add('is-visible');
-      recalc();
-    }
+    // first count-up triggers when the results scroll into view, once per session
+    const resultsIo = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          recalc();
+          resultsIo.disconnect();
+        }
+      });
+    }, {threshold:.15});
+    if (results) resultsIo.observe(results);
 
     brand.addEventListener('change', () => {
       if (brand.value === 'other') {
@@ -1777,7 +1779,6 @@
         btn.setAttribute('aria-checked', 'true');
         state.moment = btn.dataset.value;
         momentResponse.classList.add('is-visible');
-        reveal();
       });
     });
 
