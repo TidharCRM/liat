@@ -459,8 +459,11 @@
 
   /* ───── contact (final) ───── */
   .contact{background:var(--bg);padding:120px 0 100px;width:100%}
-  .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:70px;align-items:start;
+  .contact-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:70px;align-items:start;
     width:100%;max-width:var(--container);margin:0 auto;padding:0 28px;box-sizing:border-box}
+  /* RTL desktop: form lives on the right (natural reading start) */
+  .contact-grid > .lead-form-wrap{order:1}
+  .contact-grid > .contact-info{order:2}
   .lead-form-wrap{width:100%}
   .contact-info p{color:var(--ink-soft);font-size:17px;line-height:1.75;margin:0 0 32px}
   .contact-list{display:grid;gap:18px}
@@ -489,6 +492,9 @@
   @media (max-width:980px){
     .contact{padding:72px 0 96px}
     .contact-grid{grid-template-columns:1fr;gap:56px;padding:0 24px}
+    /* keep DOM order on mobile: info first, form below */
+    .contact-grid > .contact-info{order:1}
+    .contact-grid > .lead-form-wrap{order:2}
     .contact-info,.lead-form-wrap{max-width:440px;margin-inline:auto;width:100%}
     .contact-info{text-align:center}
     .contact-info .eyebrow{justify-content:center;margin-bottom:18px}
