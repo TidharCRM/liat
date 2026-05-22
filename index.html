@@ -774,19 +774,6 @@
   .calc-number-input:focus{border-bottom-color:var(--teal-deep)}
   .calc-number-input::-webkit-outer-spin-button,
   .calc-number-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  /* moment buttons */
-  .calc-moment-options{display:flex;flex-wrap:wrap;gap:10px}
-  .calc-moment{background:var(--bg-card);color:var(--ink);
-    border:1px solid var(--line);padding:13px 22px;
-    font-family:inherit;font-size:14.5px;font-weight:500;
-    cursor:pointer;transition:border-color .25s var(--ease),color .25s var(--ease)}
-  .calc-moment:hover{border-color:var(--ink-soft)}
-  .calc-moment.is-active{border-color:var(--teal-deep);color:var(--teal-deep);font-weight:600}
-  .calc-moment:focus-visible{outline:none;border-color:var(--teal-deep);
-    box-shadow:0 0 0 3px rgba(62,140,130,.18)}
-  .calc-moment-response{margin:14px 0 0;font-size:15.5px;font-weight:500;
-    color:var(--teal-deep);opacity:0;transition:opacity .5s}
-  .calc-moment-response.is-visible{opacity:1}
   /* results — always visible, count up on first scroll into view */
   .calc-results-heading{display:inline-flex;align-items:center;gap:14px;
     font-size:12px;font-weight:600;color:var(--teal-deep);
@@ -814,12 +801,6 @@
     font-variant-numeric:tabular-nums;margin:0 0 18px}
   .calc-block-note{font-size:16.5px;color:var(--ink-soft);line-height:1.65;margin:0;
     max-width:48ch}
-  .calc-time-row{display:flex;flex-wrap:wrap;gap:8px 48px;align-items:baseline;margin-bottom:20px}
-  .calc-time-row > span{font-size:16.5px;color:var(--ink-soft);
-    display:inline-flex;align-items:baseline;gap:10px}
-  .calc-time-row strong{font-family:var(--font);font-size:clamp(36px,7vw,64px);
-    font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;
-    letter-spacing:-.02em;line-height:.95}
   .calc-frequency-sentence{font-family:var(--font);font-size:clamp(22px,4vw,34px);
     font-weight:600;line-height:1.35;letter-spacing:-.015em;color:var(--ink);margin:0}
   .calc-frequency-sentence strong{font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink)}
@@ -862,11 +843,9 @@
     .calc-block{margin-bottom:64px;padding-bottom:64px}
     .calc-future .calc-cost-row{grid-template-columns:1fr;gap:14px}
     .calc-closing{margin-top:64px;padding-top:48px}
-    .calc-time-row{gap:6px 32px}
   }
   @media (prefers-reduced-motion:reduce){
     .calc-results{transition:none}
-    .calc-moment-response{transition:none}
   }
 </style>
 </head>
@@ -1199,7 +1178,7 @@
     <div class="section-head">
       <span class="eyebrow">המספרים שלך</span>
       <h2 class="section-title" id="calcHeadline">כמה באמת עולה לך לעשן?</h2>
-      <p class="section-sub">ארבע שאלות. מספר אחד בסוף.</p>
+      <p class="section-sub">שלוש שאלות. מספר אחד בסוף.</p>
     </div>
 
     <div class="calc-steps">
@@ -1243,21 +1222,6 @@
         <input class="calc-number-input" type="number" min="1" max="60" id="calcYearsInput" value="10" inputmode="numeric" aria-label="שנים של עישון">
       </div>
 
-      <!-- Step 4 — Hardest moment -->
-      <div class="calc-step">
-        <p class="calc-step-num">שלב 4</p>
-        <p class="calc-question">מתי הכי קשה לוותר?</p>
-        <div class="calc-moment-options" role="radiogroup" aria-label="הרגע הקשה ביותר">
-          <button type="button" class="calc-moment" data-value="morning" role="radio" aria-checked="false">בבוקר</button>
-          <button type="button" class="calc-moment" data-value="coffee" role="radio" aria-checked="false">עם קפה</button>
-          <button type="button" class="calc-moment" data-value="stress" role="radio" aria-checked="false">כשאני בלחץ</button>
-          <button type="button" class="calc-moment" data-value="food" role="radio" aria-checked="false">אחרי אוכל</button>
-          <button type="button" class="calc-moment" data-value="driving" role="radio" aria-checked="false">בנהיגה</button>
-          <button type="button" class="calc-moment" data-value="friends" role="radio" aria-checked="false">עם חברים</button>
-          <button type="button" class="calc-moment" data-value="always" role="radio" aria-checked="false">די כל הזמן</button>
-        </div>
-        <p class="calc-moment-response" id="calcMomentResponse">זה רגע שהמוח מחפש, לא הגוף.</p>
-      </div>
     </div>
 
     <div class="calc-results" id="calcResults" aria-live="polite">
@@ -1292,12 +1256,8 @@
 
       <!-- Time -->
       <div class="calc-block">
-        <span class="calc-block-label">זמן</span>
-        <div class="calc-time-row">
-          <span><strong id="timeHours">0</strong> שעות</span>
-          <span><strong id="timeDays">0</strong> ימים</span>
-          <span><strong id="timeYears">0</strong> שנים</span>
-        </div>
+        <span class="calc-block-label">שעות בעשן</span>
+        <div class="calc-huge-num" id="timeHours">0</div>
         <p class="calc-block-note">זמן שלא חוזר.</p>
       </div>
 
@@ -1647,14 +1607,12 @@
     const yearsSlider = document.getElementById('calcYears');
     const yearsDisplay = document.getElementById('calcYearsDisplay');
     const yearsInput = document.getElementById('calcYearsInput');
-    const momentButtons = document.querySelectorAll('.calc-moment');
-    const momentResponse = document.getElementById('calcMomentResponse');
     const results = document.getElementById('calcResults');
     const sticky = document.getElementById('calcSticky');
     const calcSection = document.getElementById('calc');
     if (!brand || !calcSection) return;
 
-    const state = { price:42, perDay:10, years:10, moment:null };
+    const state = { price:42, perDay:10, years:10 };
     let hasAnimated = false;
     const animFrames = new WeakMap();
 
@@ -1690,8 +1648,6 @@
         daily, weekly: daily * 7, monthly: daily * 30, yearly,
         historical: yearly * years,
         hours: minutes / 60,
-        days: minutes / 1440,
-        years_lost: minutes / 525600,
         gap: perDay > 0 ? (16 * 60) / perDay : 0,
         puffs: perDay * 10 * years * 365,
         invested,
@@ -1710,8 +1666,6 @@
       animateNumber(document.getElementById('costYearly'), r.yearly, fmtCurrency);
       animateNumber(document.getElementById('costHistorical'), r.historical, fmtCurrency);
       animateNumber(document.getElementById('timeHours'), r.hours, fmtNumber);
-      animateNumber(document.getElementById('timeDays'), r.days, fmtNumber);
-      animateNumber(document.getElementById('timeYears'), r.years_lost, fmtNumber);
       animateNumber(document.getElementById('gapMinutes'), r.gap, fmtNumber);
       animateNumber(document.getElementById('puffsTotal'), r.puffs, fmtNumber);
       animateNumber(document.getElementById('investmentTotal'), r.invested, fmtCurrency);
@@ -1771,16 +1725,6 @@
     }
     yearsSlider.addEventListener('input', () => syncYears(yearsSlider.value));
     yearsInput.addEventListener('input', () => syncYears(yearsInput.value));
-
-    momentButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        momentButtons.forEach(b => { b.classList.remove('is-active'); b.setAttribute('aria-checked', 'false'); });
-        btn.classList.add('is-active');
-        btn.setAttribute('aria-checked', 'true');
-        state.moment = btn.dataset.value;
-        momentResponse.classList.add('is-visible');
-      });
-    });
 
     // sticky CTA + hide floats while calc is in view (mobile only)
     const floatBtn = document.querySelector('.float-whatsapp');
