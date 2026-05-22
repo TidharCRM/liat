@@ -585,40 +585,40 @@
 
   /* ───── intro splash ───── */
   body.splash-active{overflow:hidden}
-  .splash{position:fixed;inset:0;z-index:9999;background:#0A0807;
+  .splash{position:fixed;inset:0;z-index:9999;background:var(--bg-deeper);
     display:flex;align-items:center;justify-content:center;padding:24px;
     transition:opacity .6s var(--ease),visibility .6s var(--ease);
     overscroll-behavior:contain}
   .splash.is-dismissed{opacity:0;visibility:hidden;pointer-events:none}
   .splash::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
     background:
-      radial-gradient(ellipse 80% 50% at 50% 50%,rgba(232,90,40,.06),transparent 60%),
-      radial-gradient(circle at 50% 100%,rgba(232,90,40,.12),transparent 55%)}
+      radial-gradient(ellipse 80% 50% at 50% 50%,rgba(62,140,130,.10),transparent 60%),
+      radial-gradient(circle at 50% 100%,rgba(62,140,130,.18),transparent 55%)}
   .splash-inner{position:relative;z-index:1;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:72px;
-    max-width:600px;width:100%;text-align:center}
+    max-width:680px;width:100%;text-align:center}
   .splash-title{font-family:var(--font);font-weight:800;
-    font-size:clamp(58px,15vw,128px);line-height:.95;letter-spacing:-.025em;
+    font-size:clamp(48px,12vw,108px);line-height:.95;letter-spacing:-.025em;
     margin:0;color:transparent;
     background-image:linear-gradient(180deg,
-      #F8DCB0 0%,#F8DCB0 27%,
-      #E89855 27%,#E89855 52%,
-      #B65F1F 52%,#B65F1F 77%,
-      #5A270A 77%,#5A270A 100%);
+      #F4EFE3 0%,#F4EFE3 27%,
+      #BCD8D0 27%,#BCD8D0 52%,
+      #3E8C82 52%,#3E8C82 77%,
+      #0A3D3A 77%,#0A3D3A 100%);
     -webkit-background-clip:text;background-clip:text;
-    filter:drop-shadow(0 8px 20px rgba(232,90,40,.22))}
+    filter:drop-shadow(0 8px 20px rgba(62,140,130,.28))}
   .splash-cta-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
   .splash-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;
     gap:14px;padding:20px 42px;border:0;border-radius:999px;cursor:pointer;
-    background:radial-gradient(ellipse at 50% 0%,#FFA876 0%,#E76B3A 55%,#B14418 100%);
-    color:#FFFFFF;font-family:inherit;font-size:clamp(16px,4.4vw,19px);
+    background:radial-gradient(ellipse at 50% 0%,#5FB0A6 0%,#3E8C82 55%,#1F5E55 100%);
+    color:var(--bg);font-family:inherit;font-size:clamp(16px,4.4vw,19px);
     font-weight:800;letter-spacing:.01em;
     box-shadow:
-      0 0 80px rgba(255,100,40,.45),
-      0 0 40px rgba(255,100,40,.55),
+      0 0 80px rgba(62,140,130,.45),
+      0 0 40px rgba(62,140,130,.55),
       0 12px 32px rgba(0,0,0,.45),
-      inset 0 1px 0 rgba(255,255,255,.35),
-      inset 0 -2px 0 rgba(0,0,0,.18);
+      inset 0 1px 0 rgba(255,255,255,.28),
+      inset 0 -2px 0 rgba(0,0,0,.20);
     animation:splash-pulse 2.2s ease-in-out infinite;
     transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
   .splash-cta:hover{animation-play-state:paused;transform:scale(1.05)}
@@ -626,17 +626,17 @@
   .splash-cta svg{flex-shrink:0}
   .splash-cta .splash-arrow{transition:transform .25s var(--ease)}
   .splash-cta:hover .splash-arrow{transform:translateX(-4px)}
-  .splash-hint{margin:0;color:rgba(248,228,200,.5);font-size:14px;font-weight:500;
+  .splash-hint{margin:0;color:rgba(244,239,227,.55);font-size:14px;font-weight:500;
     letter-spacing:.04em}
   @keyframes splash-pulse{
     0%,100%{transform:scale(1);
-      box-shadow:0 0 80px rgba(255,100,40,.45),0 0 40px rgba(255,100,40,.55),
+      box-shadow:0 0 80px rgba(62,140,130,.45),0 0 40px rgba(62,140,130,.55),
         0 12px 32px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.18)}
+        inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.20)}
     50%{transform:scale(1.035);
-      box-shadow:0 0 110px rgba(255,100,40,.6),0 0 55px rgba(255,100,40,.7),
+      box-shadow:0 0 110px rgba(62,140,130,.6),0 0 55px rgba(62,140,130,.7),
         0 14px 36px rgba(0,0,0,.5),
-        inset 0 1px 0 rgba(255,255,255,.35),inset 0 -2px 0 rgba(0,0,0,.18)}
+        inset 0 1px 0 rgba(255,255,255,.28),inset 0 -2px 0 rgba(0,0,0,.20)}
   }
   @media (max-width:560px){
     .splash-inner{gap:56px}
@@ -652,7 +652,7 @@
 <!-- ───────────── INTRO SPLASH ───────────── -->
 <div class="splash" id="splash" role="dialog" aria-modal="true" aria-labelledby="splashTitle">
   <div class="splash-inner">
-    <h1 class="splash-title" id="splashTitle">להפסיק לעשן</h1>
+    <h1 class="splash-title" id="splashTitle">פשוט להפסיק לעשן</h1>
     <div class="splash-cta-wrap">
       <button class="splash-cta" id="splashCta" type="button">
         <svg class="splash-arrow" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6l-6 6 6 6"/></svg>
