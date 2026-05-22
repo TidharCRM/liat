@@ -494,9 +494,11 @@
     .contact-info .eyebrow{justify-content:center;margin-bottom:18px}
     .contact-info .section-title{font-size:clamp(26px,5.2vw,32px);margin-bottom:14px}
     .contact-info > p{margin:0 auto 26px;max-width:36ch;font-size:15.5px;line-height:1.7}
-    /* tidy contact details: icons hug the text, the block centers as one unit */
-    .contact-list{display:grid;gap:14px;width:fit-content;margin:0 auto;justify-items:start}
-    .contact-list li{display:flex;align-items:center;gap:12px;justify-content:flex-start;text-align:right}
+    /* tidy contact details: each row centers as its own unit on the page axis */
+    .contact-list{display:flex;flex-direction:column;align-items:center;gap:14px;
+      padding:0;list-style:none;width:100%}
+    .contact-list li{display:inline-flex;align-items:center;gap:12px;
+      text-align:right;justify-content:center;width:auto}
     .contact-list .ico{width:auto;height:auto;justify-content:center;flex-shrink:0}
     .contact-list .ico svg{width:20px;height:20px}
     .contact-list li > div{line-height:1.3}
@@ -514,6 +516,27 @@
   .float-whatsapp{transition:opacity .25s var(--ease),transform .25s var(--ease),background .25s var(--ease)}
   .float-whatsapp.is-hidden{opacity:0;visibility:hidden;pointer-events:none;
     transform:translateY(16px) scale(.85)}
+  /* floating sound toggle — appears after the splash dismisses */
+  .float-sound{position:fixed;bottom:96px;left:24px;width:44px;height:44px;
+    background:rgba(8,51,47,.92);color:var(--bg);border:1px solid rgba(255,255,255,.12);
+    display:none;align-items:center;justify-content:center;cursor:pointer;z-index:70;
+    padding:0;
+    box-shadow:0 8px 22px -8px rgba(0,0,0,.45);
+    -webkit-backdrop-filter:saturate(160%) blur(8px);backdrop-filter:saturate(160%) blur(8px);
+    transition:background .25s var(--ease),transform .25s var(--ease),
+      opacity .25s var(--ease),visibility .25s var(--ease)}
+  .float-sound.is-visible{display:flex}
+  .float-sound:hover{background:var(--bg-deeper);transform:translateY(-2px)}
+  .float-sound svg{width:20px;height:20px}
+  .float-sound .sound-off{display:none}
+  .float-sound.is-muted .sound-on{display:none}
+  .float-sound.is-muted .sound-off{display:block}
+  .float-sound.is-hidden{opacity:0;visibility:hidden;pointer-events:none;
+    transform:translateY(16px) scale(.85)}
+  @media (max-width:720px){
+    .float-sound{bottom:82px;left:18px;width:40px;height:40px}
+    .float-sound svg{width:18px;height:18px}
+  }
 
   /* ───── footer ───── */
   .site-footer{background:var(--bg-deeper);color:rgba(244,239,227,.72);padding:64px 0 0}
@@ -1078,7 +1101,7 @@
   <div class="contact-grid">
     <div class="contact-info">
       <span class="eyebrow">הרשמה לתהליך</span>
-      <h2 class="section-title">מלא/י את פרטיך ונחזור אליך עם כל הפרטים</h2>
+      <h2 class="section-title">מלא/י את פרטיך ונחזור אליך  </h2>
       <p>נשמח לספר על מבנה התהליך, תאריכים, עלות ותנאים — אחרי שתמלאו את הטופס. אין התחייבות בשלב זה.</p>
 
       <ul class="contact-list">
@@ -1179,6 +1202,20 @@
   </div>
 </footer>
 
+<!-- Floating sound toggle -->
+<button type="button" class="float-sound" id="floatSound" aria-label="השתקה / הפעלת המוזיקה">
+  <svg class="sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M11 5L6 9H2v6h4l5 4z"/>
+    <path d="M15.5 8.5a5 5 0 0 1 0 7"/>
+    <path d="M19 5a9 9 0 0 1 0 14"/>
+  </svg>
+  <svg class="sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M11 5L6 9H2v6h4l5 4z"/>
+    <line x1="22" y1="9" x2="16" y2="15"/>
+    <line x1="16" y1="9" x2="22" y2="15"/>
+  </svg>
+</button>
+
 <!-- Floating WhatsApp -->
 <a href="https://wa.me/972524200635" class="float-whatsapp" target="_blank" rel="noopener" aria-label="פתיחת שיחה ב-WhatsApp">
   <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.3 0-.5 0-.1-.6-1.5-.8-2.1-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.7.1.2 1.8 2.7 4.3 3.8 1.5.6 2.1.7 2.9.6.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.2-.3-.2-.5-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4c1.5.8 3.1 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
@@ -1190,6 +1227,7 @@
     const splash = document.getElementById('splash');
     const cta = document.getElementById('splashCta');
     const audio = document.getElementById('splashAudio');
+    const soundBtn = document.getElementById('floatSound');
     if (!splash || !cta) return;
     const dismiss = () => {
       if (audio) {
@@ -1197,6 +1235,7 @@
         document.body.appendChild(audio);
         const p = audio.play();
         if (p && typeof p.catch === 'function') p.catch(() => {});
+        if (soundBtn) soundBtn.classList.add('is-visible');
       }
       splash.classList.add('is-dismissed');
       document.body.classList.remove('splash-active');
@@ -1206,6 +1245,13 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && document.body.contains(splash)) dismiss();
     });
+    if (soundBtn && audio) {
+      soundBtn.addEventListener('click', () => {
+        audio.muted = !audio.muted;
+        soundBtn.classList.toggle('is-muted', audio.muted);
+        soundBtn.setAttribute('aria-pressed', String(audio.muted));
+      });
+    }
   })();
 
   // year
@@ -1252,12 +1298,16 @@
     el.classList.add('reveal'); io.observe(el);
   });
 
-  // hide floating WhatsApp button when the contact form is visible
+  // hide floating buttons when the contact form is visible
   const contactSection = document.getElementById('contact');
   const floatBtn = document.querySelector('.float-whatsapp');
-  if (contactSection && floatBtn) {
+  const soundFloatBtn = document.getElementById('floatSound');
+  if (contactSection && (floatBtn || soundFloatBtn)) {
     const floatIo = new IntersectionObserver((entries) => {
-      entries.forEach(e => floatBtn.classList.toggle('is-hidden', e.isIntersecting));
+      entries.forEach(e => {
+        if (floatBtn) floatBtn.classList.toggle('is-hidden', e.isIntersecting);
+        if (soundFloatBtn) soundFloatBtn.classList.toggle('is-hidden', e.isIntersecting);
+      });
     }, {threshold:.1});
     floatIo.observe(contactSection);
   }
